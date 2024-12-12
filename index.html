@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday App by Avanish</title>
+    <style>
+      * {
+        font-size: 40px;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+      .grid-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+          );
+        background-size: 50px 50px;
+        pointer-events: none;
+        z-index: -1;
+        background-color: #070830;
+      }
+      .grid-background::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(circle, transparent, rgba(0, 0, 0, 0.9));
+      }
+      .btn {
+        width: 20%;
+        border-radius: 15px;
+        padding: 10px;
+        background-color: rgb(255, 239, 239);
+      }
+      .btn:hover {
+        background-color: lightblue;
+      }
+      .btn.add:hover {
+        background-color: green;
+      }
+      .btn.remove:hover {
+        background-color: red;
+      }
+      .btn.show:hover {
+        background-color: rgb(70, 130, 255);
+      }
+      h1 {
+        background-color: rgb(93, 173, 226);
+        padding: 10px;
+        width: 90%;
+        border-radius: 15px;
+      }
+      input[type="text"] {
+        border-radius: 15px;
+        padding: 5px;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-background"></div>
+    <center>
+      <h1>Birthday App</h1>
+      <form onsubmit="compute()">
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your name"
+          style="color: whitesmoke"
+        />
+        <br /><br />
+        <input type="submit" value="Add" class="btn add" />
+        <input type="submit" value="Remove" class="btn remove" />
+        <input type="submit" value="Show" class="btn show" />
+      </form>
+      <h2 id="msg" style="font-size: 30px; color: white"></h2>
+    </center>
+    <script>
+      let names = ["Swapnil", "Pranjal", "Pranjal", "Ayush", "Atharva"];
+
+      function compute() {
+        event.preventDefault();
+        const action = document.activeElement.value;
+        const nameInput = document.getElementById("name").value;
+        const msg = document.getElementById("msg");
+
+        if (action === "Add") {
+          if (validateName(nameInput)) {
+            if (!names.includes(nameInput)) {
+              names.push(nameInput);
+              msg.innerHTML = nameInput + ", added!";
+            } else {
+              alert("Name is already in the list!");
+            }
+          }
+        } else if (action === "Remove") {
+          if (validateName(nameInput)) {
+            const index = names.indexOf(nameInput);
+            if (index !== -1) {
+              names.splice(index, 1);
+              msg.innerHTML = nameInput + ", removed!";
+            } else {
+              alert("Name not found!");
+            }
+          }
+        } else if (action === "Show") {
+          msg.innerHTML = "Friends: " + names.join(", ");
+        }
+      }
+
+      function validateName(input) {
+        if (input === "") {
+          alert("Please enter a name!");
+          return false;
+        }
+        if (input.trim() === "") {
+          alert("Name cannot be blank spaces!");
+          return false;
+        }
+        if (!/^[A-Za-z ]+$/.test(input)) {
+          alert("Name can contain only alphabets!");
+          return false;
+        }
+        return true;
+      }
+    </script>
+  </body>
+</html>
